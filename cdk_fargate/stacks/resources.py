@@ -28,7 +28,6 @@ class Resources(cdk.Stack):
             instance_type=ec2.InstanceType.of(
                 ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
             vpc=vpc,
-            database_name=f"{env_name}-db",
             vpc_subnets=ec2.SubnetSelection(subnet_group_name='Data'),
             multi_az=True if env_name == 'prod' else False,
         )

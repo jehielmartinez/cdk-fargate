@@ -6,6 +6,7 @@ from aws_cdk import (
     aws_ecr as ecr,
     aws_secretsmanager as secretsmanager,
     aws_ssm as ssm,
+    aws_iam as iam,
     aws_elasticloadbalancingv2 as elb
 )
 
@@ -40,7 +41,7 @@ class Application(cdk.Stack):
         )
 
         # Containerazed Application
-        fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(
+        fargate_alb_service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
             f"{env_name}-{application}-fargate-service",
             cluster=cluster,

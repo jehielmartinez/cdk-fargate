@@ -44,7 +44,7 @@ class Environment(cdk.Construct):
             desired_count=1,
             database_secrets=resources.database_secrets,
             environment_variables={
-                'DATABASE_NAME': 'strapi',
+                'DATABASE_NAME': 'postgres',
                 'DATABASE_CLIENT': 'postgres'
             }
         )
