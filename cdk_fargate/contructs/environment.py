@@ -26,7 +26,8 @@ class Environment(cdk.Construct):
         resources = Resources(
             scope, id + 'Resources',
             vpc=network.vpc,
-            env_name=env_name
+            env_name=env_name,
+            username='postgres'
         )
 
         # Application
@@ -37,8 +38,13 @@ class Environment(cdk.Construct):
             env_name=env_name,
             cpu=256,
             memory_limit=2048,
-            port=3000,
+            port=1337,
             repository=repositories.output['strapi-api'],
             cluster=resources.cluster,
-            desired_count=1
+            desired_count=1,
+            database_secrets=resources.database_secrets,
+            environment_variables={
+                'DATABASE_NAME': 'strapi',
+                'DATABASE_CLIENT': 'postgres'
+            }
         )

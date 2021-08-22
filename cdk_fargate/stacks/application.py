@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_ecs as ecs,
     aws_ecs_patterns as ecs_patterns,
     aws_ecr as ecr,
+    aws_secretsmanager as secretsmanager,
     aws_ssm as ssm,
     aws_elasticloadbalancingv2 as elb
 )
@@ -22,6 +23,8 @@ class Application(cdk.Stack):
             repository: ecr.IRepository,
             cluster: ecs.ICluster,
             desired_count: int,
+            database_secrets: secretsmanager.ISecret,
+            environment_variables: dict,
             **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -57,14 +60,12 @@ class Application(cdk.Stack):
                 'container_port': port,
                 'container_name': application,
                 'enable_logging': True,
-                'environment': {
-                    # Temporal DB
-                    'DATABASE_HOST': 'database.cuwya1t8wtqh.us-east-1.rds.amazonaws.com',
-                    'DATABASE_PORT': '5432',
-                    'DATABASE_PASSWORD': 'postgres',
-                    'DATABASE_USERNAME': 'postgres',
-                    'DATABASE_NAME': 'postgres',
+                'environment': environment_variables,
+                'secrets': {
+                    'DATABASE_HOST': ecs.Secret.from_secrets_manager(database_secrets, 'host'),
+                    'DATABASE_PORT': ecs.Secret.from_secrets_manager(database_secrets, 'port'),
+                    'DATABASE_PASSWORD': ecs.Secret.from_secrets_manager(database_secrets, 'password'),
+                    'DATABASE_USERNAME': ecs.Secret.from_secrets_manager(database_secrets, 'username'),
                 },
-                'secrets': {}
             }
         )
