@@ -56,3 +56,9 @@ command.
  * `cdk docs`        open CDK documentation
 
 Enjoy!
+
+Config env variables is console:
+```
+export CERTIFICATE_ARN=1234#$
+export HOSTED_ZONE_NAME=example.com
+export HOSTED_ZONE_ID=arn:123:cccc

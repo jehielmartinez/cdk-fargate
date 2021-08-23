@@ -35,6 +35,7 @@ class Environment(cdk.Construct):
             scope, id + 'Application',
             vpc=network.vpc,
             application='strapi-api',
+            subdomain=f'cms-{env_name}',
             env_name=env_name,
             cpu=256,
             memory_limit=2048,
