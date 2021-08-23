@@ -8,7 +8,7 @@ from cdk_fargate.stacks.repositories import Repositories
 
 class USEast1(cdk.Stage):
     def __init__(self, scope: cdk.Construct, id: str, **kwargs) -> None:
-        environ=cdk.Environment(account='022508203523',region='eu-west-2')
+        environ=cdk.Environment(account='022508203523',region='us-east-1')
         super().__init__(scope, id, **{'env':environ, **kwargs})
     
 
